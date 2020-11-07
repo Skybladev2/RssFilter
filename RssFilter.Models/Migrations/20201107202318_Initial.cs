@@ -97,8 +97,33 @@ namespace RssFilter.Models.Migrations
 
             migrationBuilder.InsertData(
                 table: "Feeds",
-                columns: new string[] { "Id", "Name" },
-                values: new object[] { "dc917bad-4e16-4ecc-9aa0-5424269442e5", "favt.ru БПЛА" });
+                columns: new string[] { "Id", "Name", "BaseUrl" },
+                values: new object[] { "dc917bad-4e16-4ecc-9aa0-5424269442e5", "favt.ru БПЛА", "https://favt.ru/novosti-novosti/?rss" });
+
+            migrationBuilder.InsertData(
+                table: "Keywords",
+                columns: new string[] { "Id", "FeedId", "Text" },
+                values: new object[] { "58090521-4884-41f5-9356-57a6e590e6d1", "dc917bad-4e16-4ecc-9aa0-5424269442e5", "бпла" });
+
+            migrationBuilder.InsertData(
+                table: "Keywords",
+                columns: new string[] { "Id", "FeedId", "Text" },
+                values: new object[] { "58090521-4884-41f5-9356-57a6e590e6d1", "dc917bad-4e16-4ecc-9aa0-5424269442e5", "бвс" });
+
+            migrationBuilder.InsertData(
+                table: "Keywords",
+                columns: new string[] { "Id", "FeedId", "Text" },
+                values: new object[] { "58090521-4884-41f5-9356-57a6e590e6d1", "dc917bad-4e16-4ecc-9aa0-5424269442e5", "дрон" });
+
+            migrationBuilder.InsertData(
+                table: "Keywords",
+                columns: new string[] { "Id", "FeedId", "Text" },
+                values: new object[] { "58090521-4884-41f5-9356-57a6e590e6d1", "dc917bad-4e16-4ecc-9aa0-5424269442e5", "коптер" });
+
+            migrationBuilder.InsertData(
+                table: "Keywords",
+                columns: new string[] { "Id", "FeedId", "Text" },
+                values: new object[] { "58090521-4884-41f5-9356-57a6e590e6d1", "dc917bad-4e16-4ecc-9aa0-5424269442e5", "беспилот" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
