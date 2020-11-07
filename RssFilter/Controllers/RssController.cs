@@ -6,10 +6,12 @@ using System.Net.Http;
 using System.ServiceModel.Syndication;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Xml;
 using HtmlAgilityPack;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Configuration;
 using RssFilter.Models;
 
@@ -32,14 +34,28 @@ namespace RssFilter.Controllers
         [HttpGet]
         public IActionResult FavtDroneRss()
         {
-            var cacheDuration = GetCacheDuration();
-            // we have single feed for now
-            var feed = _context.Feeds.FirstOrDefault();
-            if (feed.LastCheck != null && feed.LastCheck.Value + cacheDuration > DateTime.Now)
+            var feed = _context.Feeds.FirstOrDefaultAsync().Result;
+            var post = new Post { Content = "", Feed = feed, Link = "1", Summary = "", Title = "" };
+            _context.Posts.Add(post);
+            for (int i = 0; i < 5; i++)
             {
-                return GetCachedRss(feed);
+                var val = new Random().Next(5);
+                Startup.queue.Enqueue(val);
+                System.Diagnostics.Debug.WriteLine("Added " + val);
             }
-            return GetFilteredRss(feed);
+            Startup.newDataAddedEvent.Set();
+            
+          
+            return new ContentResult { Content = _context.ChangeTracker.Entries<Post>().Count().ToString(), ContentType = "text/html" };
+
+            //var cacheDuration = GetCacheDuration();
+            //// we have single feed for now
+            //var feed = _context.Feeds.FirstOrDefault();
+            //if (feed.LastCheck != null && feed.LastCheck.Value + cacheDuration > DateTime.Now)
+            //{
+            //    return GetCachedRss(feed);
+            //}
+            //return GetFilteredRss(feed);
 
             //return new ContentResult { Content = "lala", ContentType = "text/html" };
         }
@@ -49,7 +65,7 @@ namespace RssFilter.Controllers
             var url = feed.BaseUrl;
             var reader = XmlReader.Create(url);
             var originalRss = SyndicationFeed.Load(reader);
-            var filteredRss = new SyndicationFeed(feed.Name, "Description", new Uri("http://localhost"));
+            var filteredRss = new SyndicationFeed(feed.Name, "Description", new Uri(feed.PublicUrl));
             var filteredItems = new LinkedList<SyndicationItem>();
 
             foreach (var post in originalRss.Items.Take(10).TakeWhile(x => x.Id != feed.LastItemId))
@@ -69,7 +85,7 @@ namespace RssFilter.Controllers
                 {
                     Summary = rssContent
                 }));
-                SavePost(feed, postUrl, post.Title.Text, content);
+                AddPost(feed, postUrl, post.Title.Text, content);
             }
 
             filteredRss.Items = filteredItems;
@@ -80,9 +96,15 @@ namespace RssFilter.Controllers
             return SerializeRss(filteredRss);
         }
 
-        private void SavePost(Feed feed, Uri postUrl, string title, string content)
+        private void AddPost(Feed feed, Uri postUrl, string title, string content)
         {
+            if(_context.Posts.Any(e=>e.Link == postUrl.AbsoluteUri))
+            {
+                return;
+            }
+
             var post = new Post() { Link = postUrl.ToString(), Title = title, Summary = content, Content = content, Feed = feed };
+
             if (_context.Entry(post).State == EntityState.Detached)
             {
                 _context.Posts.Add(post);
@@ -113,8 +135,8 @@ namespace RssFilter.Controllers
 
         private IActionResult GetCachedRss(Feed feed)
         {
-            var posts = _context.Posts.Where(x => x.Feed == feed);
-            var rss = new SyndicationFeed(feed.Name, "Description", new Uri("http://localhost"));
+            var posts = _context.Posts.Where(x => x.Feed == feed).OrderByDescending(x=>x.Link);
+            var rss = new SyndicationFeed(feed.Name, "Description", new Uri(feed.PublicUrl));
             var items = new LinkedList<SyndicationItem>();
             foreach (var post in posts)
             {

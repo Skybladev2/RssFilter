@@ -10,8 +10,8 @@ using RssFilter.Models;
 namespace RssFilter.Models.Migrations
 {
     [DbContext(typeof(PostgresDB))]
-    [Migration("20200802191501_6")]
-    partial class _6
+    [Migration("20201107202318_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,7 +41,16 @@ namespace RssFilter.Models.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
+                    b.Property<string>("PublicUrl")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("BaseUrl")
+                        .IsUnique();
+
+                    b.HasIndex("PublicUrl")
+                        .IsUnique();
 
                     b.ToTable("Feeds");
                 });
@@ -91,6 +100,9 @@ namespace RssFilter.Models.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FeedId");
+
+                    b.HasIndex("Link")
+                        .IsUnique();
 
                     b.ToTable("Posts");
                 });

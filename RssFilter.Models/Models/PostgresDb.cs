@@ -30,6 +30,14 @@ namespace RssFilter.Models
             modelBuilder.Entity<Post>()
                 .HasIndex(p => p.Link)
                 .IsUnique();
+
+            modelBuilder.Entity<Feed>()
+                .HasIndex(p => p.BaseUrl)
+                .IsUnique();
+
+            modelBuilder.Entity<Feed>()
+                .HasIndex(p => p.PublicUrl)
+                .IsUnique();
         }
     }
 }

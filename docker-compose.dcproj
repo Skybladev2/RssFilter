@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>0bc32ceb-edca-435c-ade2-e874ca18381a</ProjectGuid>
+    <ProjectGuid>32d66384-6bd3-4d35-be03-fa3a29e592a3</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/rss</DockerServiceUrl>
     <DockerServiceName>rssfilter</DockerServiceName>

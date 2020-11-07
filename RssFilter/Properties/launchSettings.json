@@ -32,6 +32,10 @@
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/rss",
       "publishAllPorts": true,
       "useSSL": true
+    },
+    "Azure Dev Spaces": {
+      "commandName": "AzureDevSpaces",
+      "launchBrowser": true
     }
   }
 }
