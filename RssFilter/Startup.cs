@@ -32,9 +32,11 @@ namespace RssFilter
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<PostgresDB>(opt =>
-            opt.UseNpgsql(Configuration.GetConnectionString("PostgresConnection")), ServiceLifetime.Singleton);
-    
+            //services.AddDbContext<PostgresDB>(opt =>
+            //opt.UseNpgsql(Configuration.GetConnectionString("PostgresConnection")), ServiceLifetime.Singleton);
+            services.AddDbContext<SQLiteDb>(opt =>
+            opt.UseSqlite(Configuration.GetConnectionString("SqliteConnection")));
+
             services.AddControllers();
 
             new Thread(DbThreadProc).Start();
