@@ -7,6 +7,7 @@ namespace RssFilter.Models
 {
     public class SQLiteDb : DbContext
     {
+        public SQLiteDb() : base() { }
         public SQLiteDb(DbContextOptions<SQLiteDb> options) : base(options) { }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Feed> Feeds { get; set; }
