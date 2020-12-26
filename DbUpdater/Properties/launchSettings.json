@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "DbUpdater": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

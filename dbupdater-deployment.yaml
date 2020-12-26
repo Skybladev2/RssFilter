@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: d:\Distr\kompose.exe convert
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: dbupdater
+  name: dbupdater
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: dbupdater
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: d:\Distr\kompose.exe convert
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: dbupdater
+    spec:
+      containers:
+      - image: skyblade/dbupdater
+        imagePullPolicy: ""
+        name: dbupdater
+        resources: {}
+        volumeMounts:
+        - mountPath: /app/db
+          name: db
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes:
+      - name: db
+        persistentVolumeClaim:
+          claimName: db
+status: {}

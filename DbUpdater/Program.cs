@@ -17,6 +17,7 @@ namespace DbUpdater
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Started");
             var dbContext = new SQLiteDb();
             if (!Directory.Exists("db"))
             {
@@ -32,6 +33,7 @@ namespace DbUpdater
                 return;
             }
             GetNewPosts(feed, dbContext);
+            Console.WriteLine("Finished");
         }
 
         private static void GetNewPosts(Feed feed, SQLiteDb context)

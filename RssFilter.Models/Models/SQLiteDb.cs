@@ -15,7 +15,7 @@ namespace RssFilter.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=db\\mydb.db;");
+            optionsBuilder.UseSqlite("Data Source=db/mydb.db;");
         }
     }
 }
