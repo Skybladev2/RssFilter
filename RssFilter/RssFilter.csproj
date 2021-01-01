@@ -34,5 +34,9 @@
     <Folder Include="db\" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="cd &quot;$(SolutionDir)&quot;&#xD;&#xA;echo cd&#xD;&#xA;docker build -t rssfilter:dev -f rssfilter/dockerfile ." />
+  </Target>
+
 
 </Project>

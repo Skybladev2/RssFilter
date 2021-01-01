@@ -13,7 +13,9 @@ namespace RssFilter
     {
         public static void Main(string[] args)
         {
+            Console.WriteLine("Start");
             CreateHostBuilder(args).Build().Run();
+            //Console.WriteLine("Exit");
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
