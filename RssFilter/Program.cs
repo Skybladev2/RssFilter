@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
@@ -15,7 +16,7 @@ namespace RssFilter
         {
             Console.WriteLine("Start");
             CreateHostBuilder(args).Build().Run();
-            //Console.WriteLine("Exit");
+            Console.WriteLine("Exit");
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

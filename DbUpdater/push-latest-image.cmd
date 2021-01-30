@@ -1,2 +1,2 @@
-﻿docker tag dbupdater:dev skyblade/dbupdater:latest
-docker push skyblade/dbupdater:latest
+docker tag dbupdater:dev skyblade/rssfilter.dbupdater:latest
+docker push skyblade/rssfilter.dbupdater:latest

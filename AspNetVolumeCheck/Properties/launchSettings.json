@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "AspNetVolumeCheck": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

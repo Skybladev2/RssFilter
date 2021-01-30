@@ -1,41 +1,49 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: d:\Distr\kompose.exe convert
-    kompose.version: 1.21.0 (992df58d8)
-  creationTimestamp: null
-  labels:
-    io.kompose.service: rssfilter
-  name: rssfilter
+  name: frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: rssfilter
+      io.kompose.service: frontend
   strategy:
     type: Recreate
   template:
     metadata:
-      annotations:
-        kompose.cmd: d:\Distr\kompose.exe convert
-        kompose.version: 1.21.0 (992df58d8)
-      creationTimestamp: null
       labels:
-        io.kompose.service: rssfilter
+        io.kompose.service: frontend
     spec:
       containers:
-      - image: skyblade/rssfilter
-        imagePullPolicy: ""
-        name: rssfilter
-        resources: {}
+      - image: skyblade/rssfilter.frontend:latest
+        name: frontend
         volumeMounts:
         - mountPath: /app/db
           name: db
+        - mountPath: /root/.aspnet/https
+          name: https
+          readOnly: true
+        env:
+        - name: ASPNETCORE_URLS
+          value: "https://+;http://+"
+        - name: ASPNETCORE_HTTPS_PORT
+          value: "443"
+        - name: ASPNETCORE_Kestrel__Certificates__Default__Path
+          value: "/root/.aspnet/https/RssFilter.pfx"
+        - name: ASPNETCORE_Kestrel__Certificates__Default__Password
+          valueFrom:
+            secretKeyRef:
+              name: certificate-pass
+              key: pass
       restartPolicy: Always
       serviceAccountName: ""
       volumes:
       - name: db
         persistentVolumeClaim:
           claimName: db
-status: {}
+      - name: https
+        secret:
+          secretName: certificate
+          items:
+          - key: file
+            path: RssFilter.pfx
