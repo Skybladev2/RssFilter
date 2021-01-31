@@ -56,6 +56,12 @@ namespace RssFilter
             {
                 endpoints.MapControllers();
             });
+
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<SQLiteDb>();
+                context.Database.Migrate();
+            }
         }
     }
 }
