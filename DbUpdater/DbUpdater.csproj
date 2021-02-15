@@ -36,6 +36,12 @@
     <Folder Include="db\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="db\mydb.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="cd &quot;$(SolutionDir)&quot;&#xD;&#xA;echo cd&#xD;&#xA;docker build -t dbupdater:dev -f dbupdater/dockerfile ." />
   </Target>
