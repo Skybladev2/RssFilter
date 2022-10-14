@@ -24,8 +24,8 @@ $ docker run --rm -it -p 80:80 -p 443:443 -e ASPNETCORE_URLS="https://+;http://+
 
 ```
 $ minikube start
-$ minikube mount C:\Users\Misha\AppData\Roaming\Microsoft\UserSecrets:/usersecrets
-$ minikube mount C:\Users\Misha\.aspnet\https:/https
+$ minikube mount %USERPROFILE%\AppData\Roaming\Microsoft\UserSecrets:/usersecrets
+$ minikube mount %USERPROFILE%\.aspnet\https:/https
 $ minikube dashboard
 $ kubectl apply -f db-persistentvolumeclaim.yaml,dbupdater-deployment.yaml,rssfilter-deployment.yaml
 $ kubectl expose deployment frontend --type=LoadBalancer --port=443
